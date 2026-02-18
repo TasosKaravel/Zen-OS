@@ -23,11 +23,11 @@ lazy_static! {
         idt.general_protection_fault.set_handler_fn(general_protection_fault_handler);
         
         // Timer interrupt
-        idt[InterruptIndex::Timer.as_usize()]
+        idt[InterruptIndex::Timer.as_u8()]
             .set_handler_fn(timer_interrupt_handler);
         
         // Keyboard interrupt
-        idt[InterruptIndex::Keyboard.as_usize()]
+        idt[InterruptIndex::Keyboard.as_u8()]
             .set_handler_fn(keyboard_interrupt_handler);
         
         idt
@@ -61,7 +61,7 @@ impl InterruptIndex {
 
 /// Breakpoint exception handler
 extern "x86-interrupt" fn breakpoint_handler(stack_frame: InterruptStackFrame) {
-    crate::boot::serial::println!("EXCEPTION: BREAKPOINT\n{:#?}", stack_frame);
+    crate::serial_println!("EXCEPTION: BREAKPOINT\n{:#?}", stack_frame);
 }
 
 /// Double fault exception handler
@@ -79,10 +79,10 @@ extern "x86-interrupt" fn page_fault_handler(
 ) {
     use x86_64::registers::control::Cr2;
 
-    crate::boot::serial::println!("EXCEPTION: PAGE FAULT");
-    crate::boot::serial::println!("Accessed Address: {:?}", Cr2::read());
-    crate::boot::serial::println!("Error Code: {:?}", error_code);
-    crate::boot::serial::println!("{:#?}", stack_frame);
+    crate::serial_println!("EXCEPTION: PAGE FAULT");
+    crate::serial_println!("Accessed Address: {:?}", Cr2::read());
+    crate::serial_println!("Error Code: {:?}", error_code);
+    crate::serial_println!("{:#?}", stack_frame);
     
     loop {
         x86_64::instructions::hlt();

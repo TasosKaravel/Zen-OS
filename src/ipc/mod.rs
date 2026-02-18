@@ -98,7 +98,7 @@ impl RingBuffer {
 }
 
 /// Global IPC channel table
-static mut IPC_CHANNELS: [Option<RingBuffer>; MAX_IPC_CHANNELS] = [None; MAX_IPC_CHANNELS];
+static mut IPC_CHANNELS: [Option<RingBuffer>; MAX_IPC_CHANNELS] = [const { None }; MAX_IPC_CHANNELS];
 static NEXT_CHANNEL_ID: AtomicU64 = AtomicU64::new(0);
 
 /// Initialize IPC subsystem

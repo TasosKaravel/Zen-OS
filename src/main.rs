@@ -38,61 +38,61 @@ entry_point!(kernel_main);
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
     // Initialize serial output for early debugging
     boot::serial::init();
-    boot::serial::println!("Zen OS v0.1.0 - Booting...");
+    crate::serial_println!("Zen OS v0.1.0 - Booting...");
 
     // Initialize core kernel components
     kernel::init(boot_info);
-    boot::serial::println!("[OK] Kernel core initialized");
+    crate::serial_println!("[OK] Kernel core initialized");
 
     // Initialize memory management
     kernel::memory::init(boot_info);
-    boot::serial::println!("[OK] Memory management initialized");
+    crate::serial_println!("[OK] Memory management initialized");
 
     // Initialize interrupt handling
     kernel::interrupts::init();
-    boot::serial::println!("[OK] Interrupt handling initialized");
+    crate::serial_println!("[OK] Interrupt handling initialized");
 
     // Initialize per-CPU structures
     kernel::percpu::init();
-    boot::serial::println!("[OK] Per-CPU structures initialized");
+    crate::serial_println!("[OK] Per-CPU structures initialized");
 
     // Initialize scheduler
     scheduler::init();
-    boot::serial::println!("[OK] Scheduler initialized");
+    crate::serial_println!("[OK] Scheduler initialized");
 
     // Initialize IPC subsystem
     ipc::init();
-    boot::serial::println!("[OK] IPC subsystem initialized");
+    crate::serial_println!("[OK] IPC subsystem initialized");
 
     // Initialize capability system
     capability::init();
-    boot::serial::println!("[OK] Capability system initialized");
+    crate::serial_println!("[OK] Capability system initialized");
 
     // Initialize TagFS
     tagfs::init();
-    boot::serial::println!("[OK] TagFS initialized");
+    crate::serial_println!("[OK] TagFS initialized");
 
     // Initialize storage subsystem
     storage::init();
-    boot::serial::println!("[OK] Storage subsystem initialized");
+    crate::serial_println!("[OK] Storage subsystem initialized");
 
     // Initialize GPU/compositor
     gpu::init();
-    boot::serial::println!("[OK] GPU subsystem initialized");
+    crate::serial_println!("[OK] GPU subsystem initialized");
 
     // Initialize AI inference engine
     ai::init();
-    boot::serial::println!("[OK] AI inference engine initialized");
+    crate::serial_println!("[OK] AI inference engine initialized");
 
     // Initialize userspace environment
     userspace::init();
-    boot::serial::println!("[OK] Userspace environment initialized");
+    crate::serial_println!("[OK] Userspace environment initialized");
 
     // Initialize compatibility layer
     compat::init();
-    boot::serial::println!("[OK] Compatibility layer initialized");
+    crate::serial_println!("[OK] Compatibility layer initialized");
 
-    boot::serial::println!("\n=== Zen OS Boot Complete ===\n");
+    crate::serial_println!("\n=== Zen OS Boot Complete ===\n");
 
     // Start the scheduler and enter idle loop
     scheduler::start();
@@ -106,8 +106,8 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 /// Panic handler for the kernel
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    boot::serial::println!("\n!!! KERNEL PANIC !!!");
-    boot::serial::println!("{}", info);
+    crate::serial_println!("\n!!! KERNEL PANIC !!!");
+    crate::serial_println!("{}", info);
     
     loop {
         x86_64::instructions::hlt();

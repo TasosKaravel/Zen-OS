@@ -80,7 +80,7 @@ impl ProcessTokenStorage {
 
 /// Global process token storage
 const MAX_PROCESSES: usize = 1024;
-static mut PROCESS_TOKENS: [Option<ProcessTokenStorage>; MAX_PROCESSES] = [None; MAX_PROCESSES];
+static mut PROCESS_TOKENS: [Option<ProcessTokenStorage>; MAX_PROCESSES] = [const { None }; MAX_PROCESSES];
 
 /// Initialize capability system
 pub fn init() {

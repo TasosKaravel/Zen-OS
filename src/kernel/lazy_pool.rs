@@ -11,6 +11,7 @@ pub enum SlotState {
 }
 
 /// Generic lazy pool slot
+#[derive(Clone, Copy)]
 pub struct PoolSlot<T> {
     state: SlotState,
     data: Option<T>,
@@ -65,7 +66,7 @@ where
     /// Create a new empty pool
     pub const fn new() -> Self {
         Self {
-            slots: [PoolSlot::new(); N],
+            slots: [const { PoolSlot::new() }; N],
         }
     }
 
